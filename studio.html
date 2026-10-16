@@ -2256,6 +2256,177 @@ body.mc-active .mc-fab-button {
   z-index: 3;
 }
 
+/* ────────────────────────────────────────────────────────
+   КНОПКА ЗАКРЫТИЯ В ХЕДЕРЕ САЙДБАРА И МОБИЛЬНАЯ НАВИГАЦИЯ
+   ──────────────────────────────────────────────────────── */
+.sidebar-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 16px 20px !important;
+}
+
+.btn-studio-close-header {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid var(--studio-border, rgba(255, 255, 255, 0.12)) !important;
+  color: var(--studio-text, #e6e1e5) !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.btn-studio-close-header:hover,
+.btn-studio-close-header:active {
+  background: rgba(255, 80, 80, 0.25) !important;
+  color: #ffb4ab !important;
+  border-color: rgba(255, 80, 80, 0.5) !important;
+}
+
+.studio-mobile-nav {
+  display: none;
+  background: var(--studio-surface-variant, #28282e);
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--studio-border, rgba(255, 255, 255, 0.08));
+  gap: 10px;
+}
+
+.studio-mobile-tab-btn {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid transparent;
+  color: var(--studio-text-sub, #9e9ba5);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.studio-mobile-tab-btn.active {
+  background: var(--studio-primary, #d0bcff);
+  color: var(--studio-on-primary, #381e72);
+  border-color: var(--studio-primary, #d0bcff);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-mobile-back-to-settings {
+  display: none !important;
+}
+
+/* ────────────────────────────────────────────────────────
+   МОБИЛЬНАЯ АДАПТАЦИЯ (ЭКРАНЫ <= 900px: СМАРТФОНЫ И ПЛАНШЕТЫ)
+   ──────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  html, body {
+    width: 100vw !important;
+    height: 100% !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+  }
+
+  .studio-app {
+    flex-direction: column !important;
+    width: 100vw !important;
+    height: 100% !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+    position: relative !important;
+  }
+
+  .studio-mobile-nav {
+    display: flex !important;
+  }
+
+  .btn-mobile-back-to-settings {
+    display: inline-flex !important;
+  }
+
+  .studio-sidebar {
+    width: 100vw !important;
+    min-width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100% !important;
+    border-right: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .studio-sidebar.mobile-hidden {
+    display: none !important;
+  }
+
+  .studio-preview-pane {
+    display: none !important;
+    width: 100vw !important;
+    min-width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100% !important;
+    flex: 1 !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .studio-preview-pane.mobile-active {
+    display: flex !important;
+  }
+
+  .preview-viewport-bar {
+    padding: 8px 12px !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .preview-scroll-container {
+    padding: 12px 8px 100px !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    justify-content: flex-start !important;
+  }
+
+  .preview-moodle-page {
+    min-width: 340px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 14px !important;
+    margin-bottom: 30px !important;
+  }
+
+  .mock-navbar {
+    padding: 8px 12px !important;
+  }
+
+  .mock-primary-nav {
+    display: none !important;
+  }
+
+  .sidebar-content {
+    padding: 16px 16px 120px !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .presets-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .preset-pill {
+    padding: 8px 6px !important;
+    font-size: 11px !important;
+  }
+}
+
 
 
 
@@ -2269,7 +2440,7 @@ body.mc-active .mc-fab-button {
 <body>
   <div class="studio-app">
     <!-- ЛЕВАЯ ПАНЕЛЬ: УПРАВЛЕНИЕ И НАСТРОЙКИ -->
-    <aside class="studio-sidebar">
+    <aside class="studio-sidebar" id="studio-sidebar">
       <div class="sidebar-header">
         <div class="header-branding">
           <span class="logo-emoji">🎨</span>
@@ -2278,6 +2449,19 @@ body.mc-active .mc-fab-button {
             <span class="tagline">Песочница тем РАНХиГС LMS</span>
           </div>
         </div>
+        <button type="button" id="btn-close-studio-sidebar" class="btn-studio-close-header" title="Закрыть песочницу">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Мобильный переключатель вкладок (для смартфонов и планшетов) -->
+      <div class="studio-mobile-nav" id="studio-mobile-nav">
+        <button type="button" class="studio-mobile-tab-btn active" id="tab-btn-settings" data-tab="settings">
+          <i class="fa fa-sliders"></i> Настройки
+        </button>
+        <button type="button" class="studio-mobile-tab-btn" id="tab-btn-preview" data-tab="preview">
+          <i class="fa fa-eye"></i> Предпросмотр
+        </button>
       </div>
 
       <!-- Главная кнопка сохранения -->
@@ -2735,6 +2919,9 @@ body.mc-active .mc-fab-button {
           </button>
         </div>
         <div class="viewport-actions">
+          <button type="button" id="btn-mobile-back-to-settings" class="btn-viewport-action btn-mobile-back-to-settings" title="Вернуться к настройкам">
+            <i class="fa fa-sliders"></i> Настройки
+          </button>
           <button id="btn-open-lms" class="btn-viewport-action" title="Открыть реальный сайт СДО">
             <i class="fa fa-external-link"></i> Открыть lms.ranepa.ru
           </button>
@@ -5008,7 +5195,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setSaveStatus('saved');
   }
+
+  setupMobileNav();
 });
+
+// Мобильная навигация между сайдбаром и макетом
+function setupMobileNav() {
+  const sidebar = document.getElementById('studio-sidebar');
+  const preview = document.querySelector('.studio-preview-pane');
+  const tabSettings = document.getElementById('tab-btn-settings');
+  const tabPreview = document.getElementById('tab-btn-preview');
+  const btnBack = document.getElementById('btn-mobile-back-to-settings');
+
+  function switchMobileTab(tab) {
+    if (tab === 'settings') {
+      if (sidebar) sidebar.classList.remove('mobile-hidden');
+      if (preview) preview.classList.remove('mobile-active');
+      if (tabSettings) tabSettings.classList.add('active');
+      if (tabPreview) tabPreview.classList.remove('active');
+    } else {
+      if (sidebar) sidebar.classList.add('mobile-hidden');
+      if (preview) preview.classList.add('mobile-active');
+      if (tabSettings) tabSettings.classList.remove('active');
+      if (tabPreview) tabPreview.classList.add('active');
+    }
+  }
+
+  if (tabSettings) tabSettings.addEventListener('click', () => switchMobileTab('settings'));
+  if (tabPreview) tabPreview.addEventListener('click', () => switchMobileTab('preview'));
+  if (btnBack) btnBack.addEventListener('click', () => switchMobileTab('settings'));
+
+  // Кнопка закрытия в шапке сайдбара
+  const closeSidebarBtn = document.getElementById('btn-close-studio-sidebar');
+  if (closeSidebarBtn) {
+    closeSidebarBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'CLOSE_STUDIO_OVERLAY' }, '*');
+      } else {
+        window.close();
+      }
+    });
+  }
+}
 
 
 // ────────────────────────────────────────────────────────
@@ -5552,6 +5782,13 @@ if (toolResetSelected) {
 
   <script>
     if (window.parent && window.parent !== window) {
+      document.querySelectorAll('#btn-close-studio-sidebar, .btn-studio-close-header').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          window.parent.postMessage({ type: 'CLOSE_STUDIO_OVERLAY' }, '*');
+        });
+      });
       const lmsBtn = document.getElementById('btn-open-lms');
       if (lmsBtn) {
         const closeBtn = lmsBtn.cloneNode(true);
