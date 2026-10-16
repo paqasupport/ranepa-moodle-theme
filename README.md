@@ -12,7 +12,7 @@
 
 Если у вас уже установлено расширение для юзерскриптов (*Tampermonkey*, *Violentmonkey* или *Userscripts* на iOS), просто нажмите на ссылку ниже:
 
-👉 ### [**НАЖМИТЕ ЗДЕСЬ ДЛЯ УСТАНОВКИ СКРИПТА**](https://raw.githubusercontent.com/paqasupport/ranepa-moodle-theme/main/moodle-theme.user.js) 👈
+👉 [**НАЖМИТЕ ЗДЕСЬ ДЛЯ УСТАНОВКИ СКРИПТА**](https://raw.githubusercontent.com/paqasupport/ranepa-moodle-theme/main/moodle-theme.user.js) 👈
 
 *(Расширение автоматически перехватит ссылку и предложит нажать кнопку **«Установить»**).*
 
