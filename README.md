@@ -1,6 +1,6 @@
 # 🎓 Paqa M3 Theme for Moodle (РАНХиГС LMS)
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/paqasupport/ranepa-moodle-theme)
+[![Version](https://img.shields.io/badge/version-2.0.5-blue.svg)](https://github.com/paqasupport/ranepa-moodle-theme)
 [![Tampermonkey](https://img.shields.io/badge/Tampermonkey-Supported-green.svg)](https://www.tampermonkey.net/)
 [![LMS РАНХиГС](https://img.shields.io/badge/РАНХиГС-lms.ranepa.ru-red.svg)](https://lms.ranepa.ru)
 
@@ -12,16 +12,25 @@
 
 Если у вас уже установлено расширение для юзерскриптов (*Tampermonkey*, *Violentmonkey* или *Userscripts* на iOS), просто нажмите на ссылку ниже:
 
-👉 [**НАЖМИТЕ ЗДЕСЬ ДЛЯ УСТАНОВКИ СКРИПТА**](https://raw.githubusercontent.com/paqasupport/ranepa-moodle-theme/main/moodle-theme.user.js) 👈
+👉 ### [**НАЖМИТЕ ЗДЕСЬ ДЛЯ УСТАНОВКИ СКРИПТА**](https://raw.githubusercontent.com/paqasupport/ranepa-moodle-theme/main/moodle-theme.user.js) 👈
 
 *(Расширение автоматически перехватит ссылку и предложит нажать кнопку **«Установить»**).*
+
+---
+
+## 🆕 Что нового в v2.0.5
+- 📂 **Исправлено отображение прикреплённых файлов к заданиям:** теперь файлы полностью видны во всех режимах (иконки, список и дерево).
+- 🧭 **Улучшена плавающая шапка (Navbar):** автоматический отступ при открытии левого бокового меню.
+- 🎨 **Идеальные углы карточек курсов:** аккуратный радиус скругления 20px с обрезкой обложек без зазоров.
+- 🔍 **Поиск курсов:** кнопка и строка поиска выровнены по единой высоте (40px), убран лишний визуальный шум.
 
 ---
 
 ## ✨ Возможности
 
 - 🌙 **Нативная глубокая тёмная тема** — создана по гайдлайнам Material 3, бережёт глаза при вечерней учёбе.
-- 🎨 **Встроенная Paqa Studio (Песочница)** — вызывается в любой момент клавишами `Alt + S` или плавающей кнопкой 🎨 в углу экрана (кнопку можно свободно перетаскивать мышкои/пальцем в любое место).
+- 🎨 **Встроенная Paqa Studio (Песочница)** — вызывается в любой момент клавишами `Alt + S` или плавающей кнопкой 🎨 в углу экрана (кнопку можно свободно перетаскивать мышкой/пальцем в любое место).
+- 🦅 **Оригинальный герб РАНХиГС** в шапке сайта.
 - 🪄 **Интерактивный ластик** — скройте любые ненужные баннеры, подвалы или кнопки в один клик.
 - 🖐️ **Перемещение элементов** — двигайте блоки расписания, дедлайнов и карточки так, как удобно вам.
 - 🖼️ **Свои обложки и названия курсов** — ставьте понятные сокращения (например, «Матан» вместо длинного бюрократического названия) и свои картинки.
@@ -33,9 +42,10 @@
 
 ### 💻 1. Компьютер (Windows / macOS / Linux)
 1. Установите расширение **[Tampermonkey](https://www.tampermonkey.net/)** для вашего браузера (Chrome, Яндекс Браузер, Edge, Opera, Firefox).
-2. Нажмите на [ссылку установки скрипта](https://raw.githubusercontent.com/paqasupport/ranepa-moodle-theme/main/moodle-theme.user.js).
-3. В открывшейся вкладке Tampermonkey нажмите кнопку **«Установить»** (Install).
-4. Перейдите на [lms.ranepa.ru](https://lms.ranepa.ru/) — тема применится автоматически!
+2. *Для Яндекс.Браузера и Chrome:* в настройках расширений (`chrome://extensions` или `browser://extensions`) включите тумблер **«Режим разработчика»** и в свойствах Tampermonkey активируйте пункт **«Разрешить пользовательские скрипты»**.
+3. Нажмите на [ссылку установки скрипта](https://raw.githubusercontent.com/paqasupport/ranepa-moodle-theme/main/moodle-theme.user.js).
+4. В открывшейся вкладке Tampermonkey нажмите кнопку **«Установить»** (Install).
+5. Перейдите на [lms.ranepa.ru](https://lms.ranepa.ru/) — тема применится автоматически!
 
 ---
 
