@@ -1135,8 +1135,13 @@ input[type="range"]::-webkit-slider-thumb:hover {
   color: var(--mc-text, #E6E1E5);
   border: 1px solid var(--mc-border, rgba(255, 255, 255, 0.1));
   border-radius: var(--mc-radius-btn, 24px);
-  padding: 8px 16px;
+  height: 38px;
+  min-height: 38px;
+  max-height: 38px;
+  padding: 0 16px;
   font-size: 13px;
+  line-height: 36px;
+  box-sizing: border-box;
   outline: none;
   width: 220px;
   transition: border-color 0.2s ease;
@@ -1151,9 +1156,17 @@ input[type="range"]::-webkit-slider-thumb:hover {
   color: var(--mc-text, #E6E1E5);
   border: 1px solid var(--mc-border, rgba(255, 255, 255, 0.1));
   border-radius: var(--mc-radius-btn, 24px);
-  padding: 8px 18px;
+  height: 38px;
+  min-height: 38px;
+  max-height: 38px;
+  padding: 0 18px;
   font-size: 13px;
+  line-height: 36px;
   font-weight: 700;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -1270,7 +1283,7 @@ body.mc-active #mock-courses-container.list-view,
   left: 0;
   right: 0;
   height: 120px;
-  border-radius: var(--mc-radius, 24px) var(--mc-radius, 24px) 0 0;
+  border-radius: calc(var(--mc-radius, 20px) - 1px) calc(var(--mc-radius, 20px) - 1px) 0 0;
   width: 100%;
   opacity: 0.9;
   z-index: 1;
