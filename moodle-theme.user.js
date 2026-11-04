@@ -2449,7 +2449,7 @@ body.mc-active .simplesearchform {
         const h1 = document.querySelector('h1, .page-header-headings h1, .page-context-header h1, header#page-header h1');
         const courseTitle = h1 ? h1.textContent.trim() : document.title;
 
-        // Разбираем заголовок на основное название и теги/чипы [1 семестр], [301-СА-24]
+        // Разбираем заголовок на основное название и теги/чипы [1 семестр], [101-ИСП-26]
         const parts = courseTitle.split('[');
         const mainTitle = parts[0].trim();
         const chips = [];
@@ -2978,20 +2978,27 @@ body.mc-active .simplesearchform {
 
         setStatus(`⏳ 2/3 · Собираем детальные баллы БРС и отзывы по дисциплинам (${courseTargets.length} шт.)...`);
         const coursesHtml = {};
+        const assignsHtml = {};
         const batchSize = 5;
         for (let i = 0; i < courseTargets.length; i += batchSize) {
           const slice = courseTargets.slice(i, i + batchSize);
           await Promise.all(slice.map(async (target) => {
             try {
-              const r = await fetch(target.url, { credentials: 'include' });
-              if (r.ok) {
+              const [r, ar] = await Promise.all([
+                fetch(target.url, { credentials: 'include' }),
+                fetch('/mod/assign/index.php?id=' + target.cid, { credentials: 'include' }).catch(() => null)
+              ]);
+              if (r && r.ok) {
                 coursesHtml[target.cid] = await r.text();
+              }
+              if (ar && ar.ok) {
+                assignsHtml[target.cid] = await ar.text();
               }
             } catch (e) {}
           }));
         }
 
-        setStatus('⏳ 3/3 · Отправляем БРС и календарь дедлайнов в Replace...');
+        setStatus('⏳ 3/3 · Отправляем БРС, сданные работы и календарь в Replace...');
         const apiResp = await fetch(REPLACE_API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -3000,6 +3007,7 @@ body.mc-active .simplesearchform {
             overview_html: ovHtml,
             course_htmls: coursesHtml,
             courses_html: coursesHtml,
+            assign_htmls: assignsHtml,
             calendar_url: calendarExportUrl,
             calendar_export_url: calendarExportUrl
           })
