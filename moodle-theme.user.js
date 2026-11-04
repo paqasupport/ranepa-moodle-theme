@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Paqa M3 Theme for Moodle (РАНХиГС LMS)
 // @namespace    https://lms.ranepa.ru/
-// @version      2.1.0
+// @version      2.2.0
 // @description  Material 3 Expressive тема для СДО РАНХиГС с интерактивной Paqa Studio и синхронизацией БРС в Replace
 // @author       Paqa Team
 // @match        https://lms.ranepa.ru/*
@@ -2942,32 +2942,50 @@ body.mc-active .simplesearchform {
           }
         }
 
-        // Находим активные курсы (без архивных)
-        const courseIds = [];
+        // Находим активные курсы (без архивных) вместе с параметром user=...
+        let uid = (window.M && window.M.cfg && window.M.cfg.userid) || '';
+        if (!uid) {
+          const um = ovHtml.match(/user[=:]\s*["']?(\d+)/i);
+          if (um) uid = um[1];
+        }
+        const courseTargets = [];
+        const seenIds = new Set();
         const rowRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
         let rowMatch;
         while ((rowMatch = rowRegex.exec(ovHtml)) !== null) {
           const tr = rowMatch[1];
-          const linkMatch = tr.match(/course\/user\.php\?mode=grade(?:&amp;|&)id=(\d+)[^>]*>([\s\S]*?)<\/a>/i)
-                         || tr.match(/id=(\d+)[^>]*>([\s\S]*?)<\/a>/i);
-          if (!linkMatch) continue;
-          const cid = linkMatch[1];
-          const titleText = linkMatch[2].replace(/<[^>]+>/g, '').trim();
-          if (titleText && !titleText.toLowerCase().includes('(архив)') && !courseIds.includes(cid)) {
-            courseIds.push(cid);
+          const hrefMatch = tr.match(/href=["']([^"']*course\/user\.php\?mode=grade[^"']*)["'][^>]*>([\s\S]*?)<\/a>/i);
+          const idMatch = tr.match(/id=(\d+)[^>]*>([\s\S]*?)<\/a>/i);
+          if (!hrefMatch && !idMatch) continue;
+          let fullUrl = '';
+          let cid = '';
+          let titleText = '';
+          if (hrefMatch) {
+            fullUrl = hrefMatch[1].replace(/&amp;/g, '&');
+            const cm = fullUrl.match(/[?&]id=(\d+)/);
+            cid = cm ? cm[1] : '';
+            titleText = hrefMatch[2].replace(/<[^>]+>/g, '').trim();
+          } else if (idMatch) {
+            cid = idMatch[1];
+            fullUrl = `/course/user.php?mode=grade&id=${cid}` + (uid ? `&user=${uid}` : '');
+            titleText = idMatch[2].replace(/<[^>]+>/g, '').trim();
+          }
+          if (cid && titleText && !titleText.toLowerCase().includes('(архив)') && !seenIds.has(cid)) {
+            seenIds.add(cid);
+            courseTargets.push({ cid, url: fullUrl });
           }
         }
 
-        setStatus(`⏳ 2/3 · Собираем детальные баллы БРС по дисциплинам (${courseIds.length} шт.)...`);
+        setStatus(`⏳ 2/3 · Собираем детальные баллы БРС и отзывы по дисциплинам (${courseTargets.length} шт.)...`);
         const coursesHtml = {};
         const batchSize = 5;
-        for (let i = 0; i < courseIds.length; i += batchSize) {
-          const slice = courseIds.slice(i, i + batchSize);
-          await Promise.all(slice.map(async (cid) => {
+        for (let i = 0; i < courseTargets.length; i += batchSize) {
+          const slice = courseTargets.slice(i, i + batchSize);
+          await Promise.all(slice.map(async (target) => {
             try {
-              const r = await fetch(`/course/user.php?mode=grade&id=${cid}`, { credentials: 'include' });
+              const r = await fetch(target.url, { credentials: 'include' });
               if (r.ok) {
-                coursesHtml[cid] = await r.text();
+                coursesHtml[target.cid] = await r.text();
               }
             } catch (e) {}
           }));
@@ -2980,7 +2998,9 @@ body.mc-active .simplesearchform {
           body: JSON.stringify({
             code: code,
             overview_html: ovHtml,
+            course_htmls: coursesHtml,
             courses_html: coursesHtml,
+            calendar_url: calendarExportUrl,
             calendar_export_url: calendarExportUrl
           })
         });
@@ -2989,7 +3009,7 @@ body.mc-active .simplesearchform {
           throw new Error(data.detail || `Ошибка сервера (${apiResp.status})`);
         }
 
-        const coursesCount = (data.brs_data && data.brs_data.courses && data.brs_data.courses.length) || courseIds.length;
+        const coursesCount = (data.brs_data && data.brs_data.courses && data.brs_data.courses.length) || courseTargets.length;
         const calSynced = data.calendar_synced || 0;
         const autoCompleted = data.auto_completed_deadlines || 0;
         setStatus(
